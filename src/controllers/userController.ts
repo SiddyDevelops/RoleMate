@@ -31,7 +31,7 @@ const getUserById = async (req: Request,res: Response)=>{
             where: { id: id },
             include: {
                 roles: true,
-                accessTos: true
+                resources: true
             }
         });
         res.status(200).json({

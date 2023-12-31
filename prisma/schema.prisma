@@ -16,8 +16,8 @@ model User {
 
   // Many-to-Many relation between USER & ROLE
   roles RoleUser[] 
-  // Many-to-Many relation between USER & ACCESSTO
-  accessTos UserAccess[] 
+  // Many-to-Many relation between USER & RESOURCE
+  resources UserResource[] 
 }
 
 model Role {
@@ -32,7 +32,7 @@ model Role {
   users RoleUser[]
 }
 
-model AccessTo {
+model Resource {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,8 +40,8 @@ model AccessTo {
   name String
   description String?
 
-  // Many-to-Many relation between USER & ACCESSTO
-  users UserAccess[] 
+  // Many-to-Many relation between USER & RESOURCE
+  users UserResource[] 
 }
 
 model RoleUser {
@@ -56,14 +56,14 @@ model RoleUser {
   @@id([userId, roleId])
 }
 
-model UserAccess {
+model UserResource {
   userId    String
-  accessId  String
+  resourceId  String
   user User @relation(fields: [userId], references: [id])
-  access AccessTo @relation(fields: [accessId], references: [id])
+  resource Resource @relation(fields: [resourceId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id([userId, accessId])
+  @@id([userId, resourceId])
 }

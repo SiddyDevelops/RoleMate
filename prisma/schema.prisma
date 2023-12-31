@@ -14,22 +14,22 @@ model User {
 
   name String?
 
-  // Many-to-Many relation between USER & TYPE
-  types TypeUser[] 
+  // Many-to-Many relation between USER & ROLE
+  roles RoleUser[] 
   // Many-to-Many relation between USER & ACCESSTO
   accessTos UserAccess[] 
 }
 
-model Type {
-  id String @id @default(uuid())
+model Role {
+  id String @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   name String
   description String?
 
-  // Many-to-Many relation between USER & TYPE
-  users TypeUser[]
+  // Many-to-Many relation between USER & ROLE
+  users RoleUser[]
 }
 
 model AccessTo {
@@ -44,16 +44,16 @@ model AccessTo {
   users UserAccess[] 
 }
 
-model TypeUser {
+model RoleUser {
   userId String
-  typeId String
+  roleId String
   user User @relation(fields: [userId], references: [id])
-  type Type @relation(fields: [typeId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id([userId, typeId])
+  @@id([userId, roleId])
 }
 
 model UserAccess {

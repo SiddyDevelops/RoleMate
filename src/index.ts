@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import userRoutes from './routes/userRoutes';
+import roleRoutes from './routes/roleRoutes';
 dotenv.config();
 
 const app = express();
@@ -15,6 +16,8 @@ app.get('/', (req,res)=>{
 
 // USER CRUD
 app.use('/user', userRoutes);
+// Type CRUD
+app.use('/role', roleRoutes);
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server listening at http://localhost:${process.env.PORT}/`);

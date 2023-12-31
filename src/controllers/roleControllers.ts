@@ -2,55 +2,62 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
-const createUser = async (req: Request,res: Response)=>{
-    const { name } = req.body; 
+const createRole = async (req: Request, res: Response) => {
+    const { id,name } = req.body;
+    if(!id || !name) {
+        return res.status(206).json({
+            status: 206,
+            message: 'Please provide the fields.',
+            data: null
+        });
+    }
     try {
-        const response = await prisma.user.create({
+        const response = await prisma.role.create({
             data: {
+                id,
                 name
             }
         });
         res.status(201).json({
             status: 201,
-            message: 'User created successfully.',
+            message: 'Role posted successfully.',
             data: response
         });
     } catch(err) {
         res.status(400).json({
             status: 400,
-            message: 'Unable to create a user. Please try again.',
+            message: 'Unable to create a role. Please try again.',
             data: err
         });
     }
 }
 
-const getUserById = async (req: Request,res: Response)=>{
+const getRoleById = async (req: Request,res: Response)=>{
     const { id } = req.params;
     try {
-        const user = await prisma.user.findUniqueOrThrow({
+        const user = await prisma.role.findUniqueOrThrow({
             where: { id: id },
             include: {
-                roles: true,
-                accessTos: true
+                users: true
             }
         });
         res.status(200).json({
             status: 200,
-            message: 'User retrieved successfully.',
+            message: 'Role retrieved successfully.',
             data: user
         });
     } catch(err) {
         res.status(404).json({
             status: 404,
-            message: 'User does not exists.',
+            message: 'Role does not exists.',
             data: err
         });
     }
 }
 
-const listAllUsers = async (req: Request,res: Response)=>{
+const listAllRoles = async (req: Request,res: Response)=>{
     try{
-        const allUsers = await prisma.user.findMany({
+        const allRoles = await prisma.role.findMany({
             select: {
                 id: true,
                 name: true
@@ -58,22 +65,22 @@ const listAllUsers = async (req: Request,res: Response)=>{
         });
         res.status(200).json({
             status: 200,
-            message: 'User list retrieved successfully.',
-            data: allUsers
+            message: 'Role list retrieved successfully.',
+            data: allRoles
         });
     } catch(err) {
         res.status(400).json({
             status: 400,
-            message: 'Unable to get users. Please try again',
+            message: 'Unable to get roles. Please try again',
             data: err
         });
     }
 }
 
-const updateUser = async (req: Request,res: Response)=>{
+const updateRole = async (req: Request,res: Response)=>{
     const { id } = req.params;
-    const { name } = req.body;
-    if(!name) {
+    const { description } = req.body;
+    if(!description) {
         return res.status(206).json({
             status: 206,
             message: 'Please provide the fields.',
@@ -81,42 +88,42 @@ const updateUser = async (req: Request,res: Response)=>{
         });
     }
     try{
-        const response = await prisma.user.update({
+        const response = await prisma.role.update({
             where: { id: id },
-            data: { name }
+            data: { description }
         });
         res.status(200).json({
             status: 200,
-            message: 'User data updated successfully.',
+            message: 'Role data updated successfully.',
             data: response
         });
     } catch(err) {
         res.status(400).json({
             status: 400,
-            message: 'Failed to update the user.',
+            message: 'Failed to update the role.',
             data: err
         });
     }
 }
 
-const deleteUser = async (req: Request,res: Response)=>{
+const deleteRole = async (req: Request,res: Response)=>{
     try {
         const { id } = req.params;
-        const response = await prisma.user.delete({
+        const response = await prisma.role.delete({
             where: { id : id}
         });
         res.status(200).json({
             status: 200,
-            message: 'User deleted successfully.',
+            message: 'Role deleted successfully.',
             data: response
         });
     } catch(err) {
         res.status(404).json({
             status: 404,
-            message: 'User does not exists.',
+            message: 'Role does not exists.',
             data: err
         });
     }
 }
 
-export default { createUser,getUserById,listAllUsers,updateUser,deleteUser };
+export default { createRole, getRoleById, listAllRoles, updateRole, deleteRole };

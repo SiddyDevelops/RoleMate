@@ -1,8 +1,6 @@
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
 import userController from "../controllers/userController";
 const router = Router();
-const prisma = new PrismaClient();
 
 // Create new User
 router.post('/', userController.createUser);

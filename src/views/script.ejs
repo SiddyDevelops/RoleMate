@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <title>RBAC List</title>
+</head>
+<body>
+    <h1>Role-Based Access Control List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Roles</th>
+                <th>Resource</th>
+                <th>Access Modes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(user => { %>
+                <% user.resources.forEach(resource => { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.roles.map(role => role.roleId).join(', ') %></td>
+                        <td><%= resource.resource.name %></td>
+                        <td><%= resource.accessModes.map(mode => mode.accessModeId).join(', ') %></td>
+                    </tr>
+                <% }); %>
+            <% }); %>
+        </tbody>
+    </table>
+    <footer>
+        <p align="center">Designed and Developed by Siddharth Singh</p>
+    </footer>
+</body>
+</html>

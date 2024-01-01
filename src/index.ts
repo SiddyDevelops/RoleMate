@@ -6,6 +6,7 @@ import resourceRoute from './routes/resourceRoute';
 import accessModeRoute from './routes/accessModeRoutes';
 import userRoleRoute from './routes/userRoleRoute';
 import userReourceRoute from './routes/userResourceRoute';
+import userReourceAccessModeRoute from './routes/userResourceAccessModeRoutes';
 dotenv.config();
 
 const app = express();
@@ -30,6 +31,8 @@ app.use('/accessMode', accessModeRoute)
 app.use('/roleUser', userRoleRoute);
 // ResourceToUser CRUD
 app.use('/userResource', userReourceRoute);
+// AccessModeToUserResource CRUD
+app.use('/userResourceAccessMode', userReourceAccessModeRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server listening at http://localhost:${process.env.PORT}/`);

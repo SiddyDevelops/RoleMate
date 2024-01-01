@@ -32,7 +32,8 @@ const assignResourceToUser = async (req: Request, res: Response) => {
             },
             include: {
                 user: true,
-                resource: true
+                resource: true,
+                accessModes: true
             }
         });
         res.status(200).json({

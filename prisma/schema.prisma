@@ -44,6 +44,19 @@ model Resource {
   users UserResource[] 
 }
 
+model AccessMode {
+  id String @id
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  description String?
+
+  // Many to Many Relation between AccessMode & UserResource
+  userResources ResourceAccessMode[]
+}
+
 model RoleUser {
   userId String
   roleId String
@@ -65,5 +78,22 @@ model UserResource {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Many to Many Relation between AccessMode & UserResource
+  accessModes ResourceAccessMode[]
+
   @@id([userId, resourceId])
+}
+
+model ResourceAccessMode {
+  userId String 
+  resourceId String
+  accessModeId String
+
+  userResource UserResource @relation(fields: [userId,resourceId], references: [userId,resourceId])
+  accessMode AccessMode @relation(fields: [accessModeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, resourceId, accessModeId])
 }

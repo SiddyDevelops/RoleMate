@@ -3,6 +3,7 @@ import express from 'express';
 import userRoutes from './routes/userRoutes';
 import roleRoutes from './routes/roleRoutes';
 import resourceRoute from './routes/resourceRoute';
+import accessModeRoute from './routes/accessModeRoutes';
 import userRoleRoute from './routes/userRoleRoute';
 import userReourceRoute from './routes/userResourceRoute';
 dotenv.config();
@@ -23,6 +24,8 @@ app.use('/user', userRoutes);
 app.use('/role', roleRoutes);
 // Resource CRUD
 app.use('/resource', resourceRoute);
+// AccessMode CRUD
+app.use('/accessMode', accessModeRoute)
 // RoleToUser CRUD
 app.use('/roleUser', userRoleRoute);
 // ResourceToUser CRUD
